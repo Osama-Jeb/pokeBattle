@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PokePoke</title>
+    <link rel="stylesheet" href="./public/css/app.css">
+</head>
+
+<body>
+
+    <div class="screens-holder d-flex justify-content-center align-items-center">
+        <div class="start-screen d-flex flex-column justify-content-center align-items-center gap-5">
+            <div class="start-pokeballs placing d-flex gap-3">
+                <img class="pokeball" src="./public/img/pokeball.png" alt="bulbasaur">
+                <img class="pokeball" src="./public/img/pokeball.png" alt="charmander">
+                <img class="pokeball" src="./public/img/pokeball.png" alt="squirtle">
+            </div>
+            <div class="start-pokemons d-flex">
+                <img class="d-none" src="./public/img/bulbasaur.png" alt="bulbasaur">
+                <img class="d-none" src="./public/img/charmander.png" alt="charmander">
+                <img class="d-none" src="./public/img/squirtle.png" alt="squirtle">
+            </div>
+            <button class="d-none beginGame">BEGIN</button>
+        </div>
+
+        <div class="battle d-none">
+            <div class="battle-screen">
+                <div class="enemy-stats">
+                    <div class="d-flex justify-content-around align-items-center">
+                        <h2>ENEMY</h2>
+                        <h4>Level</h4>
+                    </div>
+                    <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar bg-success enemy-health" style="width: 80%"></div>
+                    </div>
+                </div>
+
+                <div class="hero-stats">
+                    <div class="d-flex justify-content-around align-items-center">
+                        <h2>Hero</h2>
+                        <h4>Level</h4>
+                    </div>
+                    <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar bg-success hero-health"></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="choices-screen p-3">
+                <div class="d-flex gap-3 flex-column">
+                    <div class="d-flex gap-4">
+                        <button class="attack">ATTACK 1</button>
+                        <button class="attack">ATTACK 2</button>
+                    </div>
+                    <div class="d-flex gap-4">
+                        <button class="attack">ATTACK 3</button>
+                        <button class="attack">ATTACK 4</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    <script src="./public/js/app.js" type="module"></script>
+</body>
+
+</html>

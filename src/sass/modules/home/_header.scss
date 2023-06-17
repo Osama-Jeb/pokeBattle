@@ -1,0 +1,118 @@
+body {
+    .screens-holder {
+        width: 100vw;
+        height: 100vh;
+
+        .start-screen {
+            height: 100vh;
+            width: 70vw;
+            background-image: url("../img/starterSelectionBg.jpg");
+            background-size: cover;
+            .placing{
+                position: relative;
+                top: -30%;
+            }
+            .start-pokemons {
+                img {
+                    height: 300px;
+                    width: 300px;
+                }
+            }
+
+            .startConfirm {
+                z-index: 1001;
+            }
+        }
+
+        .battle {
+            .battle-screen {
+                background-image: url("../img/battle-screen.png");
+                background-size: contain;
+                background-position: center;
+                height: 80vh;
+                width: 100%;
+                background-repeat: no-repeat;
+                position: relative;
+
+                .enemy-stats{
+                    border: 2px solid black;
+                    width: 20vw;
+                    position: absolute;
+                    top: 5%;
+                    left: 5%;
+                }
+
+                .hero-stats{
+                    border: 2px solid black;
+                    width: 20vw;
+                    position: absolute;
+                    bottom: 5%;
+                    right: 5%;
+                }
+
+            }
+
+            .choices-screen {
+                height: 20vh;
+                width: 68vw;
+                background-color: black;
+            }
+        }
+    }
+}
+
+
+
+
+.spin {
+    animation: spin 1s ease-in-out;
+}
+@keyframes spin {
+    0% {transform: translateY(0)}
+    25% {transform: translateY(20px)}
+    50% {transform: translateY(-20px)}
+    75% {transform: translateY(20px)}
+    100% {transform: translateY(0)}
+}
+
+.enemy-slide{
+    animation: slideRight 2s forwards;
+}
+
+.hero-slide{
+    animation: slideLeft 2s forwards;
+    animation: upDown 1s 2s infinite alternate;
+}
+
+@keyframes slideRight {
+    0%{
+        top: 15%;
+        right: -10%;
+    }
+    100%{
+        top: 15%;
+        right: 15%;
+    }
+}
+
+@keyframes slideLeft {
+    0%{
+        bottom: -5%;
+        left: -10%;
+    }
+    100%{
+        bottom: -5%;
+        left: 15%;
+    }
+}
+
+@keyframes upDown {
+    0%{
+        bottom: -5%;
+        left: 15%;
+    }
+    100%{
+        bottom: -2%;
+        left: 15%;
+    }
+}
