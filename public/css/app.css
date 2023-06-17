@@ -11935,8 +11935,7 @@ body .screens-holder .battle .choices-screen {
 }
 
 .hero-slide {
-  animation: slideLeft 2s forwards;
-  animation: upDown 1s 2s infinite alternate;
+  animation: slideLeft 2s forwards, upDown 1s 2s infinite alternate;
 }
 
 @keyframes slideRight {

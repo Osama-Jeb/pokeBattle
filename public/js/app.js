@@ -44,8 +44,7 @@ for (let index = 0; index < starterBalls.length; index++) {
                 mon.classList.remove("d-none");
                 ball.classList.add("spin");
                 beginBtn.classList.remove("d-none");
-                chosenHero(ballAlt);
-                chosenEnemy();
+
             })
         }
     }
@@ -58,8 +57,19 @@ let battleScreen = document.querySelector(".battle-screen");
 let enemyImg = document.querySelector('img[alt="enemyPoke"]')
 
 beginBtn.addEventListener("click", () => {
+    let choice = "";
     startScreen.classList.add("d-none");
     battleFrame.classList.remove("d-none");
+    for (let index = 0; index < starterPoke.length; index++) {
+        let pokemon = starterPoke[index];
+        if (!pokemon.classList.contains("d-none")) {
+            choice = pokemon.alt
+            chosenHero(choice);
+            chosenEnemy();
+        }
+    }
+
+    console.log(choice);
 })
 
 // //§§ can modify pokemon's health with this
@@ -67,12 +77,17 @@ beginBtn.addEventListener("click", () => {
 // heroHealth.style.width = "50%"
 
 const chosenHero = (pokemon) => {
+    displayHero(pokemon);
+    
+}
+
+const displayHero = (pokemon) => {
     let pokeImg = document.createElement("img");
     pokeImg.setAttribute("src", `./public/img/${pokemon}Back.png`)
     pokeImg.setAttribute("alt", `${pokemon}Back`)
     pokeImg.style.position = "absolute";
     pokeImg.style.height = "250px"
-
+    
     battleScreen.firstElementChild.insertAdjacentElement("afterend", pokeImg);
     let heroImg = document.querySelector(`img[alt="${pokemon}Back"]`);
     heroImg.classList.add("hero-slide");
