@@ -8,10 +8,12 @@ body {
             width: 70vw;
             background-image: url("../img/starterSelectionBg.jpg");
             background-size: cover;
-            .placing{
+
+            .placing {
                 position: relative;
                 top: -30%;
             }
+
             .start-pokemons {
                 img {
                     height: 300px;
@@ -34,7 +36,7 @@ body {
                 background-repeat: no-repeat;
                 position: relative;
 
-                .enemy-stats{
+                .enemy-stats {
                     border: 2px solid black;
                     width: 20vw;
                     position: absolute;
@@ -42,7 +44,7 @@ body {
                     left: 5%;
                 }
 
-                .hero-stats{
+                .hero-stats {
                     border: 2px solid black;
                     width: 20vw;
                     position: absolute;
@@ -67,50 +69,68 @@ body {
 .spin {
     animation: spin 1s ease-in-out;
 }
+
 @keyframes spin {
-    0% {transform: translateY(0)}
-    25% {transform: translateY(20px)}
-    50% {transform: translateY(-20px)}
-    75% {transform: translateY(20px)}
-    100% {transform: translateY(0)}
+    0% {
+        transform: translateY(0)
+    }
+
+    25% {
+        transform: translateY(20px)
+    }
+
+    50% {
+        transform: translateY(-20px)
+    }
+
+    75% {
+        transform: translateY(20px)
+    }
+
+    100% {
+        transform: translateY(0)
+    }
 }
 
-.enemy-slide{
+.enemy-slide {
     animation: slideRight 2s forwards;
 }
 
-.hero-slide{
+.hero-slide {
     animation: slideLeft 2s forwards, upDown 1s 2s infinite alternate;
 }
 
 @keyframes slideRight {
-    0%{
+    0% {
         top: 15%;
         right: -10%;
     }
-    100%{
+
+    100% {
         top: 15%;
         right: 15%;
     }
 }
 
 @keyframes slideLeft {
-    0%{
+    0% {
         bottom: -5%;
         left: -10%;
     }
-    100%{
+
+    100% {
         bottom: -5%;
         left: 15%;
     }
 }
 
 @keyframes upDown {
-    0%{
+    0% {
         bottom: -5%;
         left: 15%;
     }
-    100%{
+
+    100% {
         bottom: -2%;
         left: 15%;
     }

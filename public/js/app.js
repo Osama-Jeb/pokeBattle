@@ -1,18 +1,33 @@
+let enemyHP = document.querySelector(".enemy-health");
+enemyHP.style.width = "100%";
+
+let heroHP = document.querySelector(".hero-health");
+heroHP.style.width = "100%";
+
 class Pokemon {
     constructor(name, attack, health) {
         this.name = name;
         this.attack = attack;
         this.health = health;
     }
+
+    tackle(opponent) {
+        opponent.health -= this.attack;
+        enemyHP.style.width = `${opponent.health}%`
+    }
+    bite(opponent) {
+        opponent.health -= this.attack/2;
+        enemyHP.style.width = `${opponent.health}%`;
+        this.health += this.attack/2;
+        heroHP.style.width = `${this.health}%`
+    }
+
+    evilTackle(opponent){
+        opponent.health -= this.attack;
+        heroHP.style.width = `${opponent.health}%`
+    }
 }
-// create 3 hero pokemons that the user will choose one from
-let charmander = new Pokemon("Charmander", 100, 100);
-let balbasaur = new Pokemon("Balbasaur", 100, 100);
-let squirtle = new Pokemon("Squirtle", 100, 100);
-// create 3 opponent pokemons that the user will fight one at random
-let haunter = new Pokemon("Haunter", 100, 100);
-let meowth = new Pokemon("Meowth", 100, 100);
-let arbok = new Pokemon("Arbok", 100, 100);
+
 
 let startScreen = document.querySelector(".start-screen");
 
@@ -56,8 +71,9 @@ let battleScreen = document.querySelector(".battle-screen");
 // these are only temporary for testing
 let enemyImg = document.querySelector('img[alt="enemyPoke"]')
 
+let choice = "";
+let enemy = "";
 beginBtn.addEventListener("click", () => {
-    let choice = "";
     startScreen.classList.add("d-none");
     battleFrame.classList.remove("d-none");
     for (let index = 0; index < starterPoke.length; index++) {
@@ -69,16 +85,26 @@ beginBtn.addEventListener("click", () => {
         }
     }
 
-    console.log(choice);
+    //: REMEMBER TO RANDOMIZE THE STATS
+    choice = new Pokemon(`${choice}`, 10, 100);
+    enemy = new Pokemon(`${enemy}`, 10, 100);
+    //! CHANGE DOCUMENT TO SOMETHING MORE SPECIFIC
+    document.onclick = function (event) {
+        let target = event.target
+        if (target.classList.contains("tackle")) {
+            choice.tackle(enemy);
+            enemy.evilTackle(choice);
+        }
+        if (target.classList.contains("bite")) {
+            choice.bite(enemy);
+        }
+    }
 })
 
-// //§§ can modify pokemon's health with this
-// let heroHealth = document.querySelector(".hero-health");
-// heroHealth.style.width = "50%"
 
 const chosenHero = (pokemon) => {
     displayHero(pokemon);
-    
+
 }
 
 const displayHero = (pokemon) => {
@@ -87,7 +113,7 @@ const displayHero = (pokemon) => {
     pokeImg.setAttribute("alt", `${pokemon}Back`)
     pokeImg.style.position = "absolute";
     pokeImg.style.height = "250px"
-    
+
     battleScreen.firstElementChild.insertAdjacentElement("afterend", pokeImg);
     let heroImg = document.querySelector(`img[alt="${pokemon}Back"]`);
     heroImg.classList.add("hero-slide");
@@ -96,7 +122,7 @@ const displayHero = (pokemon) => {
 const chosenEnemy = () => {
     let enemies = ["haunter", "meowth", "arbok"];
     let rand = Math.floor(Math.random() * enemies.length);
-    let enemy = enemies[rand];
+    enemy = enemies[rand];
 
     let enemyImg = document.createElement("img");
     enemyImg.style.position = "absolute";
