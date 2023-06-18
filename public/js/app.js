@@ -10,21 +10,36 @@ class Pokemon {
         this.attack = attack;
         this.health = health;
     }
-
+    // need to separate hero functions and enemy functions cuz of the progress bar
+    //^ HERO attacks
     tackle(opponent) {
         opponent.health -= this.attack;
         enemyHP.style.width = `${opponent.health}%`
     }
     bite(opponent) {
-        opponent.health -= this.attack/2;
+        opponent.health -= this.attack / 2;
         enemyHP.style.width = `${opponent.health}%`;
-        this.health += this.attack/2;
+        this.health += this.attack / 2;
         heroHP.style.width = `${this.health}%`
     }
 
-    evilTackle(opponent){
-        opponent.health -= this.attack;
-        heroHP.style.width = `${opponent.health}%`
+    //~ ENEMY attacks
+    //~ just add more attack and let the rand take care of it
+    enemyAttack(hero) {
+        let rand = Math.round(Math.random() * 1)
+        switch (rand) {
+            case 0:
+                this.evilTackle(hero)
+                break;
+
+            default:
+                console.log(`${this.name} missed an attack.`);
+                break;
+        }
+    }
+    evilTackle(hero) {
+        hero.health -= this.attack;
+        heroHP.style.width = `${hero.health}%`
     }
 }
 
@@ -59,7 +74,6 @@ for (let index = 0; index < starterBalls.length; index++) {
                 mon.classList.remove("d-none");
                 ball.classList.add("spin");
                 beginBtn.classList.remove("d-none");
-
             })
         }
     }
@@ -68,8 +82,6 @@ for (let index = 0; index < starterBalls.length; index++) {
 let battleFrame = document.querySelector(".battle");
 let battleScreen = document.querySelector(".battle-screen");
 
-// these are only temporary for testing
-let enemyImg = document.querySelector('img[alt="enemyPoke"]')
 
 let choice = "";
 let enemy = "";
@@ -93,15 +105,16 @@ beginBtn.addEventListener("click", () => {
         let target = event.target
         if (target.classList.contains("tackle")) {
             choice.tackle(enemy);
-            enemy.evilTackle(choice);
+            enemy.enemyAttack(choice);
         }
         if (target.classList.contains("bite")) {
             choice.bite(enemy);
+            enemy.enemyAttack(choice);
         }
     }
 })
 
-
+// reCheck if you reaaally need a function inside a function
 const chosenHero = (pokemon) => {
     displayHero(pokemon);
 
