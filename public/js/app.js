@@ -1,11 +1,11 @@
 //todo : GAME OVER or GAME WON conditions
 //todo : Play Again ??
 //todo : FIX style for attack div and HP displays
-//todo : change color of progress bar depending on percentage 
 //todo : more attacks for both pokemons
 //todo : add attack misses for hero
 //todo : attack PP & special animations for each attack
 //todo : initiative
+//todo : progress bar less than 0%
 //todo : Comments and easy to read code (this last)
 
 let choicesScreen = document.querySelector(".choices-screen");
@@ -60,17 +60,71 @@ class Pokemon {
         let tackleAttack = this.attack * 1.5;
 
         opponent.health -= tackleAttack;
-        enemyHP.style.width = `${opponent.health}%`
+        //!!!!!!!!! DO SOMETHING ABOUT THIS SHIT. IT KEEPS REPEATING ON EVERY FUNCTION
+        if (opponent.health <= 0) {
+            enemyHP.style.width = `0%`
+        } else {
+            enemyHP.style.width = `${opponent.health}%`
+        }
 
-        let info = `${this.name} attacks ${opponent.name} for ${tackleAttack} damage points`
+        let info = `${this.name} attacks ${opponent.name} with TACKLE for ${tackleAttack} damage points`
         choicesScreen.innerHTML = info;
         progBarEnemy();
     }
     bite(opponent) {
-        opponent.health -= this.attack / 2;
-        enemyHP.style.width = `${opponent.health}%`;
-        this.health += this.attack / 2;
+        let biteAttack = this.attack / 2
+        opponent.health -= biteAttack / 2;
+
+        if (opponent.health <= 0) {
+            enemyHP.style.width = `0%`
+        } else {
+            enemyHP.style.width = `${opponent.health}%`
+        }
+
+        this.health += biteAttack / 2;
+        if (this.health > 100) {
+            this.health = 100
+        }
         heroHP.style.width = `${this.health}%`
+
+        let info = `${this.name} attacks ${opponent.name} with LEECH BITE for ${biteAttack} damage points and heals for ${biteAttack} points`
+        choicesScreen.innerHTML = info;
+        progBarEnemy();
+    }
+
+    flail(opponent) {
+        let rand = Math.round(Math.random() * 2) + 0.5;
+        let flailAttack = this.attack * rand
+
+        opponent.health -= flailAttack;
+
+        if (opponent.health <= 0) {
+            enemyHP.style.width = `0%`
+        } else {
+            enemyHP.style.width = `${opponent.health}%`
+        }
+
+        let info = `${this.name} attacks ${opponent.name} with FLAIL for ${flailAttack} damage points`
+        choicesScreen.innerHTML = info;
+        progBarEnemy();
+    }
+    slam(opponent) {
+        let slamAttack = this.attack * 2;
+        opponent.health -= slamAttack;
+
+        if (opponent.health <= 0) {
+            enemyHP.style.width = `0%`
+        } else {
+            enemyHP.style.width = `${opponent.health}%`
+        }
+
+        this.health -= 5;
+        heroHP.style.width = `${this.health}%`
+
+        let info = `${this.name} attacks ${opponent.name} with SLAM for ${slamAttack} damage points. But took 5 damage points`
+        choicesScreen.innerHTML = info;
+        progBarEnemy();
+        progBarHero();
     }
 
     //~ ENEMY attacks
@@ -83,7 +137,14 @@ class Pokemon {
                 break;
 
             default:
-                console.log(`${this.name} missed an attack.`);
+                setTimeout(() => {
+                    choicesScreen.innerHTML = `${this.name} missed an attack.`
+                }, 1500);
+
+                setTimeout(() => {
+                    choicesScreen.innerHTML = attackScreen
+                }, 3000);
+
                 break;
         }
     }
@@ -95,11 +156,11 @@ class Pokemon {
             choicesScreen.innerHTML = atkInfo;
             heroHP.style.width = `${hero.health}%`
             progBarHero();
-        }, 2000);
+        }, 1500);
 
         setTimeout(() => {
             choicesScreen.innerHTML = attackScreen
-        }, 4000);
+        }, 3000);
     }
 }
 
@@ -163,10 +224,10 @@ beginBtn.addEventListener("click", () => {
 
     //: REMEMBER TO RANDOMIZE THE STATS
     heroName.textContent = choice.charAt(0).toUpperCase() + choice.slice(1);
-    choice = new Pokemon(`${choice}`, 10, 100);
+    choice = new Pokemon(`${heroName.textContent}`, 10, 100);
 
     enemyName.textContent = enemy.charAt(0).toUpperCase() + enemy.slice(1);
-    enemy = new Pokemon(`${enemy}`, 10, 100);
+    enemy = new Pokemon(`${enemyName.textContent}`, 10, 100);
     //! CHANGE DOCUMENT TO SOMETHING MORE SPECIFIC
     document.onclick = function (event) {
         let target = event.target
@@ -174,19 +235,25 @@ beginBtn.addEventListener("click", () => {
             heroAtkAnimation();
             choice.tackle(enemy);
 
-            //+ ENEMY ATTACK : ADD TIMEOUT, BELOW AS WELL
-            setTimeout(() => {
-                enemy.enemyAttack(choice);
-            }, 1000);
+            enemy.enemyAttack(choice);
         }
         if (target.classList.contains("bite")) {
             heroAtkAnimation();
             choice.bite(enemy);
 
+            enemy.enemyAttack(choice);
+        }
+        if (target.classList.contains("flail")) {
+            heroAtkAnimation();
+            choice.flail(enemy);
 
-            setTimeout(() => {
-                enemy.enemyAttack(choice);
-            }, 1000);
+            enemy.enemyAttack(choice);
+        }
+        if (target.classList.contains("slam")) {
+            heroAtkAnimation();
+            choice.slam(enemy);
+
+            enemy.enemyAttack(choice);
         }
     }
 })
