@@ -1,7 +1,7 @@
 //todo : GAME OVER or GAME WON conditions
 //todo : Play Again ??
 //todo : FIX style for attack div and HP displays
-//todo : Ask Charaf about how to stop the click thingy
+//todo : change color of progress bar depending on percentage 
 //todo : more attacks for both pokemons
 //todo : add attack misses for hero
 //todo : attack PP & special animations for each attack
@@ -23,6 +23,38 @@ class Pokemon {
         this.attack = attack;
         this.health = health;
     }
+
+    progBar() {
+        let heroScale = heroHP.style.width.slice(0, -1);
+        heroScale = parseInt(heroScale)
+        if (50 < heroScale){
+            heroHP.classList.add("bg-success");
+            heroHP.classList.remove("bg-warning");
+        }else if (heroScale <= 50){
+            heroHP.classList.remove("bg-success");
+            heroHP.classList.add("bg-warning");
+        }
+        if (heroScale <= 30){
+            heroHP.classList.remove("bg-warning");
+            heroHP.classList.add("bg-danger");
+        }
+
+        let enemyScale = enemyHP.style.width.slice(0, -1);
+        enemyScale = parseInt(enemyScale)
+        if (50 < enemyScale){
+            enemyHP.classList.add("bg-success");
+            enemyHP.classList.remove("bg-warning");
+        }else if (enemyScale <= 50){
+            enemyHP.classList.remove("bg-success");
+            enemyHP.classList.add("bg-warning");
+        }
+        if (enemyScale <= 30){
+            enemyHP.classList.remove("bg-warning");
+            enemyHP.classList.add("bg-danger");
+        }
+    }
+
+    
     // need to separate hero functions and enemy functions cuz of the progress bar
     //^ HERO attacks
     tackle(opponent) {
@@ -134,6 +166,7 @@ beginBtn.addEventListener("click", () => {
         if (target.classList.contains("tackle")) {
             actionAnimation();
             choice.tackle(enemy);
+            choice.progBar();
 
             //+ ENEMY ATTACK : ADD TIMEOUT, BELOW AS WELL
 
