@@ -17,56 +17,54 @@ enemyHP.style.width = "100%";
 let heroHP = document.querySelector(".hero-health");
 heroHP.style.width = "100%";
 
+const progBarHero = () => {
+    let heroScale = heroHP.style.width.slice(0, -1);
+    heroScale = parseInt(heroScale)
+    if (50 < heroScale) {
+        heroHP.classList.add("bg-success");
+        heroHP.classList.remove("bg-warning");
+    } else if (heroScale <= 50) {
+        heroHP.classList.remove("bg-success");
+        heroHP.classList.add("bg-warning");
+    }
+    if (heroScale <= 20) {
+        heroHP.classList.remove("bg-warning");
+        heroHP.classList.add("bg-danger");
+    }
+}
+const progBarEnemy = () => {
+    let enemyScale = enemyHP.style.width.slice(0, -1);
+    enemyScale = parseInt(enemyScale)
+    if (50 < enemyScale) {
+        enemyHP.classList.add("bg-success");
+        enemyHP.classList.remove("bg-warning");
+    } else if (enemyScale <= 50) {
+        enemyHP.classList.remove("bg-success");
+        enemyHP.classList.add("bg-warning");
+    }
+    if (enemyScale <= 20) {
+        enemyHP.classList.remove("bg-warning");
+        enemyHP.classList.add("bg-danger");
+    }
+}
+
 class Pokemon {
     constructor(name, attack, health) {
         this.name = name;
         this.attack = attack;
         this.health = health;
     }
-
-    progBar() {
-        let heroScale = heroHP.style.width.slice(0, -1);
-        heroScale = parseInt(heroScale)
-        if (50 < heroScale){
-            heroHP.classList.add("bg-success");
-            heroHP.classList.remove("bg-warning");
-        }else if (heroScale <= 50){
-            heroHP.classList.remove("bg-success");
-            heroHP.classList.add("bg-warning");
-        }
-        if (heroScale <= 30){
-            heroHP.classList.remove("bg-warning");
-            heroHP.classList.add("bg-danger");
-        }
-
-        let enemyScale = enemyHP.style.width.slice(0, -1);
-        enemyScale = parseInt(enemyScale)
-        if (50 < enemyScale){
-            enemyHP.classList.add("bg-success");
-            enemyHP.classList.remove("bg-warning");
-        }else if (enemyScale <= 50){
-            enemyHP.classList.remove("bg-success");
-            enemyHP.classList.add("bg-warning");
-        }
-        if (enemyScale <= 30){
-            enemyHP.classList.remove("bg-warning");
-            enemyHP.classList.add("bg-danger");
-        }
-    }
-
-    
     // need to separate hero functions and enemy functions cuz of the progress bar
     //^ HERO attacks
     tackle(opponent) {
+        let tackleAttack = this.attack * 1.5;
 
-        opponent.health -= this.attack;
+        opponent.health -= tackleAttack;
         enemyHP.style.width = `${opponent.health}%`
 
-        let info = `${this.name} attacks ${opponent.name} for ${this.attack} damage points`
+        let info = `${this.name} attacks ${opponent.name} for ${tackleAttack} damage points`
         choicesScreen.innerHTML = info;
-        setTimeout(() => {
-            choicesScreen.innerHTML = attackScreen
-        }, 2000);
+        progBarEnemy();
     }
     bite(opponent) {
         opponent.health -= this.attack / 2;
@@ -90,8 +88,18 @@ class Pokemon {
         }
     }
     evilTackle(hero) {
-        hero.health -= this.attack;
-        heroHP.style.width = `${hero.health}%`
+        let tackleAtk = this.attack * 1.5;
+        hero.health -= tackleAtk;
+        let atkInfo = `${this.name} attacks ${hero.name} for ${tackleAtk} damage points`
+        setTimeout(() => {
+            choicesScreen.innerHTML = atkInfo;
+            heroHP.style.width = `${hero.health}%`
+            progBarHero();
+        }, 2000);
+
+        setTimeout(() => {
+            choicesScreen.innerHTML = attackScreen
+        }, 4000);
     }
 }
 
@@ -155,7 +163,6 @@ beginBtn.addEventListener("click", () => {
 
     //: REMEMBER TO RANDOMIZE THE STATS
     heroName.textContent = choice.charAt(0).toUpperCase() + choice.slice(1);
-
     choice = new Pokemon(`${choice}`, 10, 100);
 
     enemyName.textContent = enemy.charAt(0).toUpperCase() + enemy.slice(1);
@@ -164,25 +171,27 @@ beginBtn.addEventListener("click", () => {
     document.onclick = function (event) {
         let target = event.target
         if (target.classList.contains("tackle")) {
-            actionAnimation();
+            heroAtkAnimation();
             choice.tackle(enemy);
-            choice.progBar();
 
             //+ ENEMY ATTACK : ADD TIMEOUT, BELOW AS WELL
-
-            enemy.enemyAttack(choice);
+            setTimeout(() => {
+                enemy.enemyAttack(choice);
+            }, 1000);
         }
         if (target.classList.contains("bite")) {
-            actionAnimation();
+            heroAtkAnimation();
             choice.bite(enemy);
 
 
-            enemy.enemyAttack(choice);
+            setTimeout(() => {
+                enemy.enemyAttack(choice);
+            }, 1000);
         }
     }
 })
 
-const actionAnimation = () => {
+const heroAtkAnimation = () => {
     heroImg.classList.add("atkAni");
     setTimeout(() => {
         heroImg.classList.remove("atkAni");
