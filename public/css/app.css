@@ -11882,12 +11882,14 @@ body .screens-holder .start-screen .start-pokemons img {
   width: 300px;
 }
 body .screens-holder .start-screen .beginGame {
-  z-index: 1001;
-  outline: none;
-  border: none;
+  box-shadow: inset 0px 0px 0px 5px #000;
+  border: 3px black dashed;
   border-radius: 15px;
   padding-inline: 25px;
   padding: 10px;
+}
+body .screens-holder .start-screen .beginGame:hover {
+  animation: borderThingy 0.5s infinite;
 }
 body .screens-holder .battle .battle-screen {
   background-image: url("../img/battle-screen.png");
@@ -11917,6 +11919,17 @@ body .screens-holder .battle .choices-screen {
   background-color: greenyellow;
 }
 
+@keyframes borderThingy {
+  0% {
+    border: 3px black dashed;
+  }
+  50% {
+    border: 3px black dotted;
+  }
+  100% {
+    border: 3px black dashed;
+  }
+}
 .ballMotion {
   animation: ballMotion 1s ease-in-out;
 }

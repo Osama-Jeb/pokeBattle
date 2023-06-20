@@ -5,7 +5,7 @@
 //todo : add attack misses for hero
 //todo : attack PP & special animations for each attack
 //todo : initiative
-//todo : progress bar less than 0%
+//todo : evilHealBite doesnt modify enemy health
 //todo : Comments and easy to read code (this last)
 
 let choicesScreen = document.querySelector(".choices-screen");
@@ -93,7 +93,7 @@ class Pokemon {
     }
 
     flail(opponent) {
-        let rand = Math.round(Math.random() * 2) + 0.5;
+        let rand = Math.round(Math.random()) + 0.5;
         let flailAttack = this.attack * rand
 
         opponent.health -= flailAttack;
@@ -130,11 +130,19 @@ class Pokemon {
     //~ ENEMY attacks
     //~ just add more attack and let the rand take care of it
     enemyAttack(hero) {
-        let rand = Math.round(Math.random() * 1)
+        // let rand = Math.round(Math.random() * 2)
+        let rand = 2;
         switch (rand) {
             case 0:
                 this.evilTackle(hero)
                 break;
+            case 1:
+                this.evilFlail(hero);
+                break
+            case 2:
+                this.evilSlam(hero);
+                break;
+
 
             default:
                 setTimeout(() => {
@@ -151,7 +159,42 @@ class Pokemon {
     evilTackle(hero) {
         let tackleAtk = this.attack * 1.5;
         hero.health -= tackleAtk;
-        let atkInfo = `${this.name} attacks ${hero.name} for ${tackleAtk} damage points`
+        let atkInfo = `${this.name} attacks ${hero.name} with EVIL TACKLE for ${tackleAtk} damage points`
+        setTimeout(() => {
+            choicesScreen.innerHTML = atkInfo;
+            heroHP.style.width = `${hero.health}%`
+            progBarHero();
+        }, 1500);
+
+        setTimeout(() => {
+            choicesScreen.innerHTML = attackScreen
+        }, 3000);
+    }
+
+    evilFlail(hero) {
+        let flailAtk = this.attack * (Math.round(Math.random()) + 0.5);
+        hero.health -= flailAtk;
+        let atkInfo = `${this.name} attacks ${hero.name} with EVIL FLAIL for ${flailAtk} damage points`
+        setTimeout(() => {
+            choicesScreen.innerHTML = atkInfo;
+            heroHP.style.width = `${hero.health}%`
+            progBarHero();
+        }, 1500);
+
+        setTimeout(() => {
+            choicesScreen.innerHTML = attackScreen
+        }, 3000);
+    }
+
+    evilSlam(hero) {
+        let slamAtk = this.attack * 2;
+        hero.health -= slamAtk;
+        this.health -= 5;
+        enemyHP.style.width = `${this.health}%`
+        progBarEnemy();
+
+        
+        let atkInfo = `${this.name} attacks ${hero.name} with EVIL SLAM for ${slamAtk} damage points but takes 5 damage`
         setTimeout(() => {
             choicesScreen.innerHTML = atkInfo;
             heroHP.style.width = `${hero.health}%`
@@ -202,6 +245,7 @@ for (let index = 0; index < starterBalls.length; index++) {
 
 let battleFrame = document.querySelector(".battle");
 let battleScreen = document.querySelector(".battle-screen");
+// my h2 that displays the pokemon's name
 let enemyName = document.querySelector(".enemyName");
 let heroName = document.querySelector(".heroName");
 
@@ -224,7 +268,7 @@ beginBtn.addEventListener("click", () => {
 
     //: REMEMBER TO RANDOMIZE THE STATS
     heroName.textContent = choice.charAt(0).toUpperCase() + choice.slice(1);
-    choice = new Pokemon(`${heroName.textContent}`, 10, 100);
+    choice = new Pokemon(`${heroName.textContent}`, 20, 100);
 
     enemyName.textContent = enemy.charAt(0).toUpperCase() + enemy.slice(1);
     enemy = new Pokemon(`${enemyName.textContent}`, 10, 100);
@@ -234,24 +278,29 @@ beginBtn.addEventListener("click", () => {
         if (target.classList.contains("tackle")) {
             heroAtkAnimation();
             choice.tackle(enemy);
+            gameEnd();
 
             enemy.enemyAttack(choice);
         }
         if (target.classList.contains("bite")) {
             heroAtkAnimation();
             choice.bite(enemy);
+            gameEnd();
 
             enemy.enemyAttack(choice);
         }
         if (target.classList.contains("flail")) {
             heroAtkAnimation();
             choice.flail(enemy);
+            gameEnd();
 
             enemy.enemyAttack(choice);
         }
         if (target.classList.contains("slam")) {
             heroAtkAnimation();
             choice.slam(enemy);
+
+            gameEnd();
 
             enemy.enemyAttack(choice);
         }
@@ -260,23 +309,17 @@ beginBtn.addEventListener("click", () => {
 
 const heroAtkAnimation = () => {
     heroImg.classList.add("atkAni");
-    setTimeout(() => {
+    heroImg.addEventListener("animationend", () => {
         heroImg.classList.remove("atkAni");
-    }, 1010);
+    })
 
     enemyImg.classList.add("enemyGotHit");
-    setTimeout(() => {
+    enemyImg.addEventListener("animationend", () => {
         enemyImg.classList.remove("enemyGotHit");
-    }, 1010);
+    })
 }
 
-// reCheck if you reaaally need a function inside a function
 const chosenHero = (pokemon) => {
-    displayHero(pokemon);
-
-}
-
-const displayHero = (pokemon) => {
     let pokeImg = document.createElement("img");
     pokeImg.setAttribute("src", `./public/img/${pokemon}Back.gif`)
     pokeImg.setAttribute("alt", `${pokemon}Back`)
@@ -286,11 +329,12 @@ const displayHero = (pokemon) => {
     battleScreen.firstElementChild.insertAdjacentElement("afterend", pokeImg);
     heroImg = document.querySelector(`img[alt="${pokemon}Back"]`);
     heroImg.classList.add("hero-slide");
-    setTimeout(() => {
+
+    heroImg.addEventListener("animationend", () => {
         heroImg.classList.remove("hero-slide");
         heroImg.style.bottom = "0%"
         heroImg.style.left = "15%"
-    }, 2000);
+    })
 }
 
 const chosenEnemy = () => {
@@ -310,8 +354,40 @@ const chosenEnemy = () => {
     enemyImg.style.top = "15%"
     enemyImg.style.right = "15%";
 
-    setTimeout(() => {
+    enemyImg.addEventListener("animationend", () => {
         enemyImg.classList.remove("enemy-slide");
-    }, 2000);
+    })
 }
 
+const gameEnd = () => {
+    if (choice.health <= 0) {
+        setTimeout(() => {
+            alert("You Lose")
+            resetEverything();
+        }, 3000);
+    } else if (enemy.health <= 0) {
+        setTimeout(() => {
+            alert("You win")
+            resetEverything();
+        }, 3000);
+    }
+
+}
+
+const resetEverything = () => {
+    choice = "";
+    enemy = "";
+    heroImg.remove();
+    enemyImg.remove();
+    heroHP.style.width = "100%";
+    heroHP.classList.remove("bg-warning", "bg-danger");
+    heroHP.classList.add("bg-success")
+    enemyHP.style.width = "100%";
+    enemyHP.classList.remove("bg-warning", "bg-danger");
+    enemyHP.classList.add("bg-success")
+    heroImg = "";
+    enemyImg = "";
+    startScreen.classList.remove("d-none");
+    battleFrame.classList.add("d-none");
+    choicesScreen.innerHTML = attackScreen;
+}
