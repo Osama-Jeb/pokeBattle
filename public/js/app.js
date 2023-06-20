@@ -5,6 +5,9 @@
 //todo : initiative
 //todo : Comments and easy to read code (this last)
 
+let audioOp = document.querySelector("#opening");
+let audioEnemy = document.querySelector("#enemyDMG");
+let audioHero = document.querySelector("#heroDMG");
 let choicesScreen = document.querySelector(".choices-screen");
 let attackScreen = choicesScreen.innerHTML;
 
@@ -158,6 +161,7 @@ class Pokemon {
             choicesScreen.innerHTML = atkInfo;
             heroHP.style.width = `${hero.health}%`
             progBarHero();
+            audioHero.play();
             gameEnd();
         }, 2000);
 
@@ -174,6 +178,7 @@ class Pokemon {
             choicesScreen.innerHTML = atkInfo;
             heroHP.style.width = `${hero.health}%`
             progBarHero();
+            audioHero.play();
             gameEnd();
         }, 2000);
 
@@ -192,6 +197,7 @@ class Pokemon {
             choicesScreen.innerHTML = atkInfo;
             heroHP.style.width = `${hero.health}%`
             progBarHero();
+            audioHero.play();
             gameEnd();
         }, 2000);
 
@@ -255,6 +261,9 @@ let enemyImg = "";
 beginBtn.addEventListener("click", () => {
     startScreen.classList.add("d-none");
     battleFrame.classList.remove("d-none");
+    audioOp.play();
+    audioOp.volume = 0.5
+    audioOp.loop = true;
     for (let index = 0; index < starterPoke.length; index++) {
         let pokemon = starterPoke[index];
         if (!pokemon.classList.contains("d-none")) {
@@ -304,6 +313,7 @@ beginBtn.addEventListener("click", () => {
 
 const attackingBg = (myImg) => {
     heroAtkAnimation();
+    audioEnemy.play();
     myImg.classList.add("atkAniBg")
     myImg.classList.remove("d-none");
     myImg.addEventListener("animationend", () => {
