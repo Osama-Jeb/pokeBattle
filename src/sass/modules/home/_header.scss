@@ -48,7 +48,6 @@ body {
                 .atkOp{
                     width: 100%;
                     height: 80vh;
-                    opacity: 0;
                 }
 
                 .enemy-stats {
@@ -207,11 +206,11 @@ body {
     }
 }
 
-.slamHit{
-    animation : slamHit 1s alternate;
+.atkAniBg{
+    animation : atkAniBg 1s alternate;
 }
 
-@keyframes slamHit {
+@keyframes atkAniBg {
     0%{
         opacity: 0;
     }

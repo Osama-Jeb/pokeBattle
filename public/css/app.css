@@ -11905,7 +11905,6 @@ body .screens-holder .battle .battle-screen {
 body .screens-holder .battle .battle-screen .atkOp {
   width: 100%;
   height: 80vh;
-  opacity: 0;
 }
 body .screens-holder .battle .battle-screen .enemy-stats {
   border: 2px solid black;
@@ -12034,11 +12033,11 @@ body .screens-holder .battle .choices-screen {
     opacity: 1;
   }
 }
-.slamHit {
-  animation: slamHit 1s alternate;
+.atkAniBg {
+  animation: atkAniBg 1s alternate;
 }
 
-@keyframes slamHit {
+@keyframes atkAniBg {
   0% {
     opacity: 0;
   }

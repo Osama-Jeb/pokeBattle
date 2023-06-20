@@ -193,7 +193,7 @@ class Pokemon {
         enemyHP.style.width = `${this.health}%`
         progBarEnemy();
 
-        
+
         let atkInfo = `${this.name} attacks ${hero.name} with EVIL SLAM for ${slamAtk} damage points but takes 5 damage`
         setTimeout(() => {
             choicesScreen.innerHTML = atkInfo;
@@ -231,7 +231,7 @@ for (let index = 0; index < starterBalls.length; index++) {
                     let pokemon = starterPoke[i];
                     pokemon.classList.add("d-none");
                 }
-                ball.addEventListener("animationend", ()=>{
+                ball.addEventListener("animationend", () => {
                     ball.classList.remove("ballMotion");
                 })
                 ball.parentElement.classList.remove("placing")
@@ -249,7 +249,10 @@ let battleScreen = document.querySelector(".battle-screen");
 let enemyName = document.querySelector(".enemyName");
 let heroName = document.querySelector(".heroName");
 
-let slamImg = document.querySelector(".atkOp");
+let slamImg = document.querySelector(".atkOrange");
+let tackleImg = document.querySelector(".atkPurple");
+let flailImg = document.querySelector(".atkWhite");
+let biteImg = document.querySelector(".atkRed");
 
 let choice = "";
 let enemy = "";
@@ -269,7 +272,7 @@ beginBtn.addEventListener("click", () => {
 
     //: REMEMBER TO RANDOMIZE THE STATS
     heroName.textContent = choice.charAt(0).toUpperCase() + choice.slice(1);
-    choice = new Pokemon(`${heroName.textContent}`, 20, 100);
+    choice = new Pokemon(`${heroName.textContent}`, 10, 100);
 
     enemyName.textContent = enemy.charAt(0).toUpperCase() + enemy.slice(1);
     enemy = new Pokemon(`${enemyName.textContent}`, 10, 100);
@@ -278,13 +281,18 @@ beginBtn.addEventListener("click", () => {
         let target = event.target
         if (target.classList.contains("tackle")) {
             heroAtkAnimation();
+            attackingBg(tackleImg);
+
             choice.tackle(enemy);
+            
             gameEnd();
 
             enemy.enemyAttack(choice);
         }
         if (target.classList.contains("bite")) {
             heroAtkAnimation();
+            attackingBg(biteImg);
+
             choice.bite(enemy);
             gameEnd();
 
@@ -292,6 +300,8 @@ beginBtn.addEventListener("click", () => {
         }
         if (target.classList.contains("flail")) {
             heroAtkAnimation();
+            attackingBg(flailImg);
+
             choice.flail(enemy);
             gameEnd();
 
@@ -299,11 +309,12 @@ beginBtn.addEventListener("click", () => {
         }
         if (target.classList.contains("slam")) {
             heroAtkAnimation();
+            attackingBg(slamImg);
             choice.slam(enemy);
 
             slamImg.classList.add("slamHit");
 
-            slamImg.addEventListener("animationend", ()=>{
+            slamImg.addEventListener("animationend", () => {
                 slamImg.classList.remove("slamHit");
             })
 
@@ -313,6 +324,15 @@ beginBtn.addEventListener("click", () => {
         }
     }
 })
+
+const attackingBg = (myImg) => {
+    myImg.classList.add("atkAniBg")
+    myImg.classList.remove("d-none");
+    myImg.addEventListener("animationend", () => {
+        myImg.classList.remove("atkAniBg");
+        myImg.classList.add("d-none");
+    })
+}
 
 const heroAtkAnimation = () => {
     heroImg.classList.add("atkAni");
@@ -369,32 +389,14 @@ const chosenEnemy = () => {
 const gameEnd = () => {
     if (choice.health <= 0) {
         setTimeout(() => {
-            alert("You Lose")
-            resetEverything();
+            alert("You Lose");
+            location.reload();
         }, 3000);
     } else if (enemy.health <= 0) {
         setTimeout(() => {
             alert("You win")
-            resetEverything();
+            location.reload();
         }, 3000);
     }
 
-}
-
-const resetEverything = () => {
-    choice = "";
-    enemy = "";
-    heroImg.remove();
-    enemyImg.remove();
-    heroHP.style.width = "100%";
-    heroHP.classList.remove("bg-warning", "bg-danger");
-    heroHP.classList.add("bg-success")
-    enemyHP.style.width = "100%";
-    enemyHP.classList.remove("bg-warning", "bg-danger");
-    enemyHP.classList.add("bg-success")
-    heroImg = "";
-    enemyImg = "";
-    startScreen.classList.remove("d-none");
-    battleFrame.classList.add("d-none");
-    choicesScreen.innerHTML = attackScreen;
 }
