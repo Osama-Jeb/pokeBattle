@@ -45,6 +45,13 @@ body {
                 background-repeat: no-repeat;
                 position: relative;
 
+                .slamGif{
+                    position: absolute;
+                    top: 5%;
+                    right: 19%;
+                    z-index: 1111;
+                }
+
                 .atkOp{
                     width: 100%;
                     height: 80vh;
