@@ -379,7 +379,7 @@ const chosenEnemy = () => {
 
     enemyImg.classList.add("enemy-slide");
     enemyImg.style.top = "5%"
-    enemyImg.style.right = "23%";
+    enemyImg.style.right = "25%";
 
     enemyImg.addEventListener("animationend", () => {
         enemyImg.classList.remove("enemy-slide");

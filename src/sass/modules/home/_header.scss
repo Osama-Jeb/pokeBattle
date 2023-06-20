@@ -69,6 +69,14 @@ body {
             .choices-screen {
                 height: 20vh;
                 background-color: greenyellow;
+                button{
+                    width: 50%;
+                    outline: none;
+                    border: none;
+                    letter-spacing: 5px;
+                    color: white;
+                
+                }
             }
         }
     }
@@ -207,7 +215,7 @@ body {
 }
 
 .atkAniBg{
-    animation : atkAniBg 1s alternate;
+    animation : atkAniBg 0.5s 2 alternate;
 }
 
 @keyframes atkAniBg {
@@ -219,8 +227,25 @@ body {
         opacity: 0.25;
     }
 
-
     100%{
         opacity: 0.5;
     }
+}
+
+
+
+.slam{
+    background-color: #ffc107;
+}
+
+.tackle{
+    background-color: #6c757d;
+}
+
+.flail{
+    background-color: #dc3545;
+}
+
+.bite{
+    background-color:  #198754;
 }

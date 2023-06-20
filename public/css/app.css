@@ -11923,6 +11923,13 @@ body .screens-holder .battle .choices-screen {
   height: 20vh;
   background-color: greenyellow;
 }
+body .screens-holder .battle .choices-screen button {
+  width: 50%;
+  outline: none;
+  border: none;
+  letter-spacing: 5px;
+  color: white;
+}
 
 @keyframes borderThingy {
   0% {
@@ -12034,7 +12041,7 @@ body .screens-holder .battle .choices-screen {
   }
 }
 .atkAniBg {
-  animation: atkAniBg 1s alternate;
+  animation: atkAniBg 0.5s 2 alternate;
 }
 
 @keyframes atkAniBg {
@@ -12047,6 +12054,21 @@ body .screens-holder .battle .choices-screen {
   100% {
     opacity: 0.5;
   }
+}
+.slam {
+  background-color: #ffc107;
+}
+
+.tackle {
+  background-color: #6c757d;
+}
+
+.flail {
+  background-color: #dc3545;
+}
+
+.bite {
+  background-color: #198754;
 }
 
 /*# sourceMappingURL=app.css.map */
