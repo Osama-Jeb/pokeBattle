@@ -147,11 +147,11 @@ class Pokemon {
             default:
                 setTimeout(() => {
                     choicesScreen.innerHTML = `${this.name} missed an attack.`
-                }, 1500);
+                }, 2000);
 
                 setTimeout(() => {
                     choicesScreen.innerHTML = attackScreen
-                }, 3000);
+                }, 4000);
 
                 break;
         }
@@ -164,11 +164,11 @@ class Pokemon {
             choicesScreen.innerHTML = atkInfo;
             heroHP.style.width = `${hero.health}%`
             progBarHero();
-        }, 1500);
+        }, 2000);
 
         setTimeout(() => {
             choicesScreen.innerHTML = attackScreen
-        }, 3000);
+        }, 4000);
     }
 
     evilFlail(hero) {
@@ -179,11 +179,11 @@ class Pokemon {
             choicesScreen.innerHTML = atkInfo;
             heroHP.style.width = `${hero.health}%`
             progBarHero();
-        }, 1500);
+        }, 2000);
 
         setTimeout(() => {
             choicesScreen.innerHTML = attackScreen
-        }, 3000);
+        }, 4000);
     }
 
     evilSlam(hero) {
@@ -199,11 +199,11 @@ class Pokemon {
             choicesScreen.innerHTML = atkInfo;
             heroHP.style.width = `${hero.health}%`
             progBarHero();
-        }, 1500);
+        }, 2000);
 
         setTimeout(() => {
             choicesScreen.innerHTML = attackScreen
-        }, 3000);
+        }, 4000);
     }
 }
 
@@ -231,9 +231,9 @@ for (let index = 0; index < starterBalls.length; index++) {
                     let pokemon = starterPoke[i];
                     pokemon.classList.add("d-none");
                 }
-                setTimeout(() => {
+                ball.addEventListener("animationend", ()=>{
                     ball.classList.remove("ballMotion");
-                }, 1010);
+                })
                 ball.parentElement.classList.remove("placing")
                 mon.classList.remove("d-none");
                 ball.classList.add("ballMotion");
@@ -249,6 +249,7 @@ let battleScreen = document.querySelector(".battle-screen");
 let enemyName = document.querySelector(".enemyName");
 let heroName = document.querySelector(".heroName");
 
+let slamImg = document.querySelector(".atkOp");
 
 let choice = "";
 let enemy = "";
@@ -300,6 +301,12 @@ beginBtn.addEventListener("click", () => {
             heroAtkAnimation();
             choice.slam(enemy);
 
+            slamImg.classList.add("slamHit");
+
+            slamImg.addEventListener("animationend", ()=>{
+                slamImg.classList.remove("slamHit");
+            })
+
             gameEnd();
 
             enemy.enemyAttack(choice);
@@ -333,7 +340,7 @@ const chosenHero = (pokemon) => {
     heroImg.addEventListener("animationend", () => {
         heroImg.classList.remove("hero-slide");
         heroImg.style.bottom = "0%"
-        heroImg.style.left = "15%"
+        heroImg.style.left = "25%"
     })
 }
 
@@ -351,8 +358,8 @@ const chosenEnemy = () => {
     battleScreen.firstElementChild.insertAdjacentElement("afterend", enemyImg);
 
     enemyImg.classList.add("enemy-slide");
-    enemyImg.style.top = "15%"
-    enemyImg.style.right = "15%";
+    enemyImg.style.top = "5%"
+    enemyImg.style.right = "23%";
 
     enemyImg.addEventListener("animationend", () => {
         enemyImg.classList.remove("enemy-slide");

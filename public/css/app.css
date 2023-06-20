@@ -11891,14 +11891,21 @@ body .screens-holder .start-screen .beginGame {
 body .screens-holder .start-screen .beginGame:hover {
   animation: borderThingy 0.5s infinite;
 }
+body .screens-holder .battle {
+  width: 100vw;
+}
 body .screens-holder .battle .battle-screen {
   background-image: url("../img/battle-screen.png");
-  background-size: contain;
-  background-position: center;
+  background-size: cover;
+  background-position: center bottom;
   height: 80vh;
-  width: 100%;
   background-repeat: no-repeat;
   position: relative;
+}
+body .screens-holder .battle .battle-screen .atkOp {
+  width: 100%;
+  height: 80vh;
+  opacity: 0;
 }
 body .screens-holder .battle .battle-screen .enemy-stats {
   border: 2px solid black;
@@ -11915,7 +11922,6 @@ body .screens-holder .battle .battle-screen .hero-stats {
 }
 body .screens-holder .battle .choices-screen {
   height: 20vh;
-  width: 68vw;
   background-color: greenyellow;
 }
 
@@ -11965,12 +11971,12 @@ body .screens-holder .battle .choices-screen {
 
 @keyframes slideRight {
   0% {
-    top: 15%;
+    top: 5%;
     right: -10%;
   }
   100% {
-    top: 15%;
-    right: 15%;
+    top: 5%;
+    right: 23%;
   }
 }
 @keyframes slideLeft {
@@ -11980,7 +11986,7 @@ body .screens-holder .battle .choices-screen {
   }
   100% {
     bottom: 0%;
-    left: 15%;
+    left: 25%;
   }
 }
 @keyframes upDownStats {
@@ -12026,6 +12032,21 @@ body .screens-holder .battle .choices-screen {
   }
   100% {
     opacity: 1;
+  }
+}
+.slamHit {
+  animation: slamHit 1s alternate;
+}
+
+@keyframes slamHit {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.25;
+  }
+  100% {
+    opacity: 0.5;
   }
 }
 
